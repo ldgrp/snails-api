@@ -5,7 +5,7 @@ Generates a Swagger spec from a Servant API.
 
 ## Viewing the spec
 
-Use [Swagger Editor](https://editor.swagger.io/) to view `swagger.json`.
+Use [Swagger Editor](https://editor.swagger.io?url=https://raw.githubusercontent.com/ldgrp/snails-api/master/swagger.json) to view `swagger.json`.
 
 ## Development
 
