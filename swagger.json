@@ -1,0 +1,892 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "0.1",
+        "title": "Snails API",
+        "description": "Description."
+    },
+    "definitions": {
+        "News": {
+            "required": [
+                "id",
+                "title",
+                "content",
+                "imageUrl",
+                "url",
+                "createdAt"
+            ],
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "$ref": "#/definitions/UTCTime"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "imageUrl": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "WeatherCondition": {
+            "type": "string",
+            "enum": [
+                "Clear",
+                "Cloudy",
+                "Cyclone",
+                "Dust",
+                "Fog",
+                "Frost",
+                "Haze",
+                "HeavyShowers",
+                "LightRain",
+                "LightShowers",
+                "MostlySunny",
+                "PartlyCloudy",
+                "Rain",
+                "Showers",
+                "Snow",
+                "Storms",
+                "Sunny",
+                "Wind"
+            ]
+        },
+        "User": {
+            "required": [
+                "id",
+                "name",
+                "username",
+                "createdAt"
+            ],
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "$ref": "#/definitions/UTCTime"
+                },
+                "username": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "Entry": {
+            "required": [
+                "id",
+                "createdAt",
+                "content",
+                "author",
+                "likedBy",
+                "replies"
+            ],
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "$ref": "#/definitions/UTCTime"
+                },
+                "replyTo": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "likedBy": {
+                    "items": {
+                        "$ref": "#/definitions/User"
+                    },
+                    "type": "array"
+                },
+                "replies": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "author": {
+                    "$ref": "#/definitions/User"
+                },
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "Map": {
+            "required": [
+                "url"
+            ],
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "UTCTime": {
+            "example": "2016-07-22T00:00:00Z",
+            "format": "yyyy-mm-ddThh:MM:ssZ",
+            "type": "string"
+        },
+        "Vehicle": {
+            "required": [
+                "name",
+                "code",
+                "eta"
+            ],
+            "type": "object",
+            "properties": {
+                "eta": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "code": {
+                    "type": "string"
+                }
+            }
+        },
+        "Weather": {
+            "required": [
+                "createdAt"
+            ],
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "$ref": "#/definitions/UTCTime"
+                },
+                "currentTemperature": {
+                    "type": "integer"
+                },
+                "precipitation": {
+                    "format": "double",
+                    "type": "number"
+                },
+                "humidity": {
+                    "format": "double",
+                    "type": "number"
+                },
+                "uvIndex": {
+                    "type": "integer"
+                },
+                "conditions": {
+                    "$ref": "#/definitions/WeatherCondition"
+                },
+                "maxTemperature": {
+                    "type": "integer"
+                },
+                "minTemperature": {
+                    "type": "integer"
+                }
+            }
+        },
+        "Message": {
+            "required": [
+                "from",
+                "to",
+                "content",
+                "createdAt",
+                "id"
+            ],
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "$ref": "#/definitions/UTCTime"
+                },
+                "to": {
+                    "$ref": "#/definitions/User"
+                },
+                "from": {
+                    "$ref": "#/definitions/User"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "paths": {
+        "/entry/unlike/{entryId}": {
+            "post": {
+                "summary": "Unlike entry",
+                "responses": {
+                    "404": {
+                        "description": "`entryId` not found"
+                    },
+                    "400": {
+                        "description": "Invalid `Authorization`"
+                    },
+                    "200": {
+                        "schema": {
+                            "example": [],
+                            "items": {},
+                            "maxItems": 0,
+                            "type": "array"
+                        },
+                        "description": ""
+                    }
+                },
+                "produces": [
+                    "application/json;charset=utf-8"
+                ],
+                "parameters": [
+                    {
+                        "required": false,
+                        "in": "header",
+                        "name": "Authorization",
+                        "type": "string"
+                    },
+                    {
+                        "required": true,
+                        "in": "path",
+                        "name": "entryId",
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Entry"
+                ]
+            }
+        },
+        "/messages/{userId}": {
+            "get": {
+                "summary": "List messages",
+                "responses": {
+                    "404": {
+                        "description": "`userId` not found"
+                    },
+                    "400": {
+                        "description": "Invalid `until` or `since` or `count` or `Authorization`"
+                    },
+                    "200": {
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/Message"
+                            },
+                            "type": "array"
+                        },
+                        "description": ""
+                    }
+                },
+                "produces": [
+                    "application/json;charset=utf-8"
+                ],
+                "parameters": [
+                    {
+                        "required": false,
+                        "in": "header",
+                        "name": "Authorization",
+                        "type": "string"
+                    },
+                    {
+                        "required": true,
+                        "in": "path",
+                        "name": "userId",
+                        "type": "string"
+                    },
+                    {
+                        "required": false,
+                        "in": "query",
+                        "name": "count",
+                        "type": "integer"
+                    },
+                    {
+                        "required": false,
+                        "in": "query",
+                        "name": "since",
+                        "type": "string"
+                    },
+                    {
+                        "required": false,
+                        "in": "query",
+                        "name": "until",
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Message"
+                ]
+            }
+        },
+        "/maps/board": {
+            "get": {
+                "summary": "Get map link for a board",
+                "responses": {
+                    "400": {
+                        "description": "Invalid `id`"
+                    },
+                    "200": {
+                        "schema": {
+                            "$ref": "#/definitions/Map"
+                        },
+                        "description": ""
+                    }
+                },
+                "produces": [
+                    "application/json;charset=utf-8"
+                ],
+                "parameters": [
+                    {
+                        "required": true,
+                        "in": "query",
+                        "name": "id",
+                        "type": "string",
+                        "description": "board id"
+                    }
+                ],
+                "tags": [
+                    "Map"
+                ]
+            }
+        },
+        "/entry/replies": {
+            "get": {
+                "summary": "Get entry replies",
+                "responses": {
+                    "400": {
+                        "description": "Invalid `entryId[id]`"
+                    },
+                    "200": {
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/Entry"
+                            },
+                            "type": "array"
+                        },
+                        "description": ""
+                    }
+                },
+                "produces": [
+                    "application/json;charset=utf-8"
+                ],
+                "parameters": [
+                    {
+                        "required": false,
+                        "in": "query",
+                        "name": "entryId[id]",
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Entry"
+                ]
+            }
+        },
+        "/news/{newsId}": {
+            "get": {
+                "summary": "Get News item",
+                "responses": {
+                    "404": {
+                        "description": "`newsId` not found"
+                    },
+                    "200": {
+                        "schema": {
+                            "$ref": "#/definitions/News"
+                        },
+                        "description": ""
+                    }
+                },
+                "produces": [
+                    "application/json;charset=utf-8"
+                ],
+                "parameters": [
+                    {
+                        "required": true,
+                        "in": "path",
+                        "name": "newsId",
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "News"
+                ]
+            }
+        },
+        "/user/{userId}": {
+            "get": {
+                "summary": "Get User",
+                "responses": {
+                    "404": {
+                        "description": "`userId` not found"
+                    },
+                    "200": {
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        },
+                        "description": ""
+                    }
+                },
+                "produces": [
+                    "application/json;charset=utf-8"
+                ],
+                "parameters": [
+                    {
+                        "required": true,
+                        "in": "path",
+                        "name": "userId",
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "User"
+                ]
+            }
+        },
+        "/entry/{entryId}": {
+            "delete": {
+                "summary": "Delete entry",
+                "responses": {
+                    "404": {
+                        "description": "`entryId` not found"
+                    },
+                    "400": {
+                        "description": "Invalid `Authorization`"
+                    },
+                    "200": {
+                        "schema": {
+                            "$ref": "#/definitions/Entry"
+                        },
+                        "description": ""
+                    }
+                },
+                "produces": [
+                    "application/json;charset=utf-8"
+                ],
+                "parameters": [
+                    {
+                        "required": false,
+                        "in": "header",
+                        "name": "Authorization",
+                        "type": "string"
+                    },
+                    {
+                        "required": true,
+                        "in": "path",
+                        "name": "entryId",
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Entry"
+                ]
+            }
+        },
+        "/user": {
+            "post": {
+                "summary": "Create User",
+                "responses": {
+                    "400": {
+                        "description": "Invalid `username` or `name`"
+                    },
+                    "200": {
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        },
+                        "description": ""
+                    }
+                },
+                "produces": [
+                    "application/json;charset=utf-8"
+                ],
+                "parameters": [
+                    {
+                        "required": false,
+                        "in": "query",
+                        "name": "name",
+                        "type": "string"
+                    },
+                    {
+                        "required": false,
+                        "in": "query",
+                        "name": "username",
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "User"
+                ]
+            }
+        },
+        "/message/{userId}": {
+            "post": {
+                "summary": "Send message",
+                "responses": {
+                    "404": {
+                        "description": "`userId` not found"
+                    },
+                    "400": {
+                        "description": "Invalid `content` or `Authorization`"
+                    },
+                    "200": {
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        },
+                        "description": ""
+                    }
+                },
+                "produces": [
+                    "application/json;charset=utf-8"
+                ],
+                "parameters": [
+                    {
+                        "required": false,
+                        "in": "header",
+                        "name": "Authorization",
+                        "type": "string"
+                    },
+                    {
+                        "required": true,
+                        "in": "path",
+                        "name": "userId",
+                        "type": "string"
+                    },
+                    {
+                        "required": false,
+                        "in": "query",
+                        "name": "content",
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Message"
+                ]
+            }
+        },
+        "/transport": {
+            "get": {
+                "summary": "Get vehicles",
+                "responses": {
+                    "400": {
+                        "description": "Invalid `count` or `code`"
+                    },
+                    "200": {
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/Vehicle"
+                            },
+                            "type": "array"
+                        },
+                        "description": ""
+                    }
+                },
+                "produces": [
+                    "application/json;charset=utf-8"
+                ],
+                "parameters": [
+                    {
+                        "items": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "name": "code",
+                        "collectionFormat": "multi",
+                        "type": "array"
+                    },
+                    {
+                        "required": false,
+                        "in": "query",
+                        "name": "count",
+                        "type": "integer"
+                    }
+                ],
+                "tags": [
+                    "Transport"
+                ]
+            }
+        },
+        "/weather": {
+            "get": {
+                "summary": "Get current weather information",
+                "responses": {
+                    "200": {
+                        "schema": {
+                            "$ref": "#/definitions/Weather"
+                        },
+                        "description": ""
+                    }
+                },
+                "produces": [
+                    "application/json;charset=utf-8"
+                ],
+                "tags": [
+                    "Weather"
+                ]
+            }
+        },
+        "/entry/like/{entryId}": {
+            "post": {
+                "summary": "Like entry",
+                "responses": {
+                    "404": {
+                        "description": "`entryId` not found"
+                    },
+                    "400": {
+                        "description": "Invalid `Authorization`"
+                    },
+                    "200": {
+                        "schema": {
+                            "example": [],
+                            "items": {},
+                            "maxItems": 0,
+                            "type": "array"
+                        },
+                        "description": ""
+                    }
+                },
+                "produces": [
+                    "application/json;charset=utf-8"
+                ],
+                "parameters": [
+                    {
+                        "required": false,
+                        "in": "header",
+                        "name": "Authorization",
+                        "type": "string"
+                    },
+                    {
+                        "required": true,
+                        "in": "path",
+                        "name": "entryId",
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Entry"
+                ]
+            }
+        },
+        "/news": {
+            "get": {
+                "summary": "Get list of News items",
+                "responses": {
+                    "400": {
+                        "description": "Invalid `until` or `since` or `count`"
+                    },
+                    "200": {
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/News"
+                            },
+                            "type": "array"
+                        },
+                        "description": ""
+                    }
+                },
+                "produces": [
+                    "application/json;charset=utf-8"
+                ],
+                "parameters": [
+                    {
+                        "required": false,
+                        "in": "query",
+                        "name": "count",
+                        "type": "integer"
+                    },
+                    {
+                        "required": false,
+                        "in": "query",
+                        "name": "since",
+                        "type": "string"
+                    },
+                    {
+                        "required": false,
+                        "in": "query",
+                        "name": "until",
+                        "type": "string"
+                    }
+                ],
+                "description": "Results are ordered from newest to oldest.",
+                "tags": [
+                    "News"
+                ]
+            }
+        },
+        "/maps": {
+            "get": {
+                "summary": "Get map link",
+                "responses": {
+                    "400": {
+                        "description": "Invalid `lng` or `lat`"
+                    },
+                    "200": {
+                        "schema": {
+                            "$ref": "#/definitions/Map"
+                        },
+                        "description": ""
+                    }
+                },
+                "produces": [
+                    "application/json;charset=utf-8"
+                ],
+                "parameters": [
+                    {
+                        "format": "double",
+                        "required": true,
+                        "in": "query",
+                        "name": "lat",
+                        "type": "number",
+                        "description": "latitude"
+                    },
+                    {
+                        "format": "double",
+                        "required": true,
+                        "in": "query",
+                        "name": "lng",
+                        "type": "number",
+                        "description": "longitude"
+                    }
+                ],
+                "tags": [
+                    "Map"
+                ]
+            }
+        },
+        "/message/{messageId}": {
+            "get": {
+                "summary": "Get message",
+                "responses": {
+                    "404": {
+                        "description": "`messageId` not found"
+                    },
+                    "400": {
+                        "description": "Invalid `Authorization`"
+                    },
+                    "200": {
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        },
+                        "description": ""
+                    }
+                },
+                "produces": [
+                    "application/json;charset=utf-8"
+                ],
+                "parameters": [
+                    {
+                        "required": false,
+                        "in": "header",
+                        "name": "Authorization",
+                        "type": "string"
+                    },
+                    {
+                        "required": true,
+                        "in": "path",
+                        "name": "messageId",
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Message"
+                ]
+            }
+        },
+        "/entry": {
+            "post": {
+                "summary": "Create entry",
+                "responses": {
+                    "400": {
+                        "description": "Invalid `replyTo` or `content` or `Authorization`"
+                    },
+                    "200": {
+                        "schema": {
+                            "$ref": "#/definitions/Entry"
+                        },
+                        "description": ""
+                    }
+                },
+                "produces": [
+                    "application/json;charset=utf-8"
+                ],
+                "parameters": [
+                    {
+                        "required": false,
+                        "in": "header",
+                        "name": "Authorization",
+                        "type": "string"
+                    },
+                    {
+                        "required": false,
+                        "in": "query",
+                        "name": "content",
+                        "type": "string"
+                    },
+                    {
+                        "required": false,
+                        "in": "query",
+                        "name": "replyTo",
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Entry"
+                ]
+            },
+            "get": {
+                "summary": "Get entry",
+                "responses": {
+                    "400": {
+                        "description": "Invalid `postId`"
+                    },
+                    "200": {
+                        "schema": {
+                            "$ref": "#/definitions/Entry"
+                        },
+                        "description": ""
+                    }
+                },
+                "produces": [
+                    "application/json;charset=utf-8"
+                ],
+                "parameters": [
+                    {
+                        "required": false,
+                        "in": "query",
+                        "name": "postId",
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Entry"
+                ]
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "User"
+        },
+        {
+            "name": "Entry"
+        },
+        {
+            "name": "Weather"
+        },
+        {
+            "name": "News"
+        },
+        {
+            "name": "Transport"
+        },
+        {
+            "name": "Message"
+        },
+        {
+            "name": "Map"
+        }
+    ]
+}
