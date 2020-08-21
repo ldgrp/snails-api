@@ -12,7 +12,7 @@ import Types
 type EntryAPI =
         Summary "Get entry"
             :> "entry" 
-            :> QueryParam "postId" T.Text 
+            :> Capture "postId" EntryId
             :> Get '[JSON] Entry
    :<|> Summary "Get entry replies"
             :> "entry" 
@@ -30,14 +30,12 @@ type EntryAPI =
             :> Header "Authorization" Token
             :> Capture "entryId" EntryId 
             :> Delete '[JSON] Entry
-        -- | Like entry
    :<|> Summary "Like entry"
             :> "entry" 
             :> "like" 
             :> Header "Authorization" Token
             :> Capture "entryId" EntryId 
             :> Post '[JSON] ()
-        -- | Unlike entry
    :<|> Summary "Unlike entry"
             :> "entry" 
             :> "unlike" 
