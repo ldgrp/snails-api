@@ -32,7 +32,13 @@ executable snails-api
                      , text
                      , time
   other-modules:       Types
-                     , API
+                     , Api
+                     , Api.User
+                     , Api.Entry
+                     , Api.Map
+                     , Api.Message
+                     , Api.News
+                     , Api.Transport
   -- other-extensions:
   build-depends:       base >=4.13 && <4.14
   hs-source-dirs:      src

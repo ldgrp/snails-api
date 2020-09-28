@@ -12,7 +12,14 @@ import Servant.Swagger
 
 import qualified Data.ByteString.Lazy.Char8 as BLC
 
-import API
+import Api
+import Api.User
+import Api.Map
+import Api.Entry
+import Api.Message
+import Api.News
+import Api.Transport
+import Api.Weather
 import Types
 
 main = do 
