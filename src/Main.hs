@@ -23,7 +23,7 @@ main = do
 snailsSwagger :: Swagger
 snailsSwagger = toSwagger (Proxy :: Proxy API)
     & info.title .~ "Snails API"
-    & info.version .~ "0.1"
+    & info.version .~ "0.2"
     & info.description ?~ "Description."
     & applyTagsFor (subOperations (Proxy :: Proxy UserAPI) (Proxy :: Proxy API)) ["User"]
     & applyTagsFor (subOperations (Proxy :: Proxy EntryAPI) (Proxy :: Proxy API)) ["Entry"]

@@ -12,7 +12,7 @@ import Types
 type EntryAPI =
         Summary "Get entry"
             :> "entry" 
-            :> Capture "postId" EntryId
+            :> Capture "entryId" EntryId
             :> Get '[JSON] Entry
    :<|> Summary "Get entry replies"
             :> "entry" 
@@ -47,6 +47,7 @@ type EntryAPI =
 type MessageAPI =
       Summary "Send message" 
          :> "message" 
+         :> "user"
          :> Header "Authorization" Token
          :> Capture "userId" UserId
          :> QueryParam "content" T.Text
