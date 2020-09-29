@@ -4,7 +4,7 @@ cabal-version:       >=1.10
 -- http://haskell.org/cabal/users-guide/
 
 name:                snails-api
-version:             0.1.0.0
+version:             0.2.0.0
 -- synopsis:
 -- description:
 -- bug-reports:
@@ -19,27 +19,36 @@ extra-source-files:  CHANGELOG.md
 
 executable snails-api
   main-is:             Main.hs
-  build-depends:       base >=4.13 && <4.14
+  build-depends:       base >=4.14
                      , aeson
                      , aeson-pretty
                      , bytestring
+                     , containers
                      , http-client
                      , http-client-tls
                      , lens
+                     , persistent
+                     , persistent-sqlite
+                     , persistent-template
                      , servant
+                     , servant-server
                      , servant-swagger
                      , swagger2
                      , text
                      , time
-  other-modules:       Types
+                     , wai
+                     , warp
+  other-modules:       Db
+                     , Types
                      , Api
                      , Api.User
                      , Api.Entry
                      , Api.Map
+                     , Api.Weather
                      , Api.Message
                      , Api.News
                      , Api.Transport
   -- other-extensions:
-  build-depends:       base >=4.13 && <4.14
+  build-depends:       base >=4.14
   hs-source-dirs:      src
   default-language:    Haskell2010

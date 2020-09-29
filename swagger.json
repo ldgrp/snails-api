@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "0.1",
+        "version": "0.2",
         "title": "Snails API",
         "description": "Description."
     },
@@ -30,7 +30,10 @@
                     "type": "string"
                 },
                 "id": {
-                    "type": "string"
+                    "maximum": 9223372036854775807,
+                    "format": "int64",
+                    "minimum": -9223372036854775808,
+                    "type": "integer"
                 },
                 "title": {
                     "type": "string"
@@ -79,7 +82,10 @@
                     "type": "string"
                 },
                 "id": {
-                    "type": "string"
+                    "maximum": 9223372036854775807,
+                    "format": "int64",
+                    "minimum": -9223372036854775808,
+                    "type": "integer"
                 }
             }
         },
@@ -98,7 +104,10 @@
                     "$ref": "#/definitions/UTCTime"
                 },
                 "replyTo": {
-                    "type": "string"
+                    "maximum": 9223372036854775807,
+                    "format": "int64",
+                    "minimum": -9223372036854775808,
+                    "type": "integer"
                 },
                 "content": {
                     "type": "string"
@@ -111,7 +120,10 @@
                 },
                 "replies": {
                     "items": {
-                        "type": "string"
+                        "maximum": 9223372036854775807,
+                        "format": "int64",
+                        "minimum": -9223372036854775808,
+                        "type": "integer"
                     },
                     "type": "array"
                 },
@@ -119,7 +131,10 @@
                     "$ref": "#/definitions/User"
                 },
                 "id": {
-                    "type": "string"
+                    "maximum": 9223372036854775807,
+                    "format": "int64",
+                    "minimum": -9223372036854775808,
+                    "type": "integer"
                 }
             }
         },
@@ -215,7 +230,10 @@
                     "type": "string"
                 },
                 "id": {
-                    "type": "string"
+                    "maximum": 9223372036854775807,
+                    "format": "int64",
+                    "minimum": -9223372036854775808,
+                    "type": "integer"
                 }
             }
         }
@@ -233,10 +251,7 @@
                     },
                     "200": {
                         "schema": {
-                            "example": [],
-                            "items": {},
-                            "maxItems": 0,
-                            "type": "array"
+                            "$ref": "#/definitions/Entry"
                         },
                         "description": ""
                     }
@@ -252,10 +267,13 @@
                         "type": "string"
                     },
                     {
+                        "maximum": 9223372036854775807,
+                        "format": "int64",
+                        "minimum": -9223372036854775808,
                         "required": true,
                         "in": "path",
                         "name": "entryId",
-                        "type": "string"
+                        "type": "integer"
                     }
                 ],
                 "tags": [
@@ -294,10 +312,13 @@
                         "type": "string"
                     },
                     {
+                        "maximum": 9223372036854775807,
+                        "format": "int64",
+                        "minimum": -9223372036854775808,
                         "required": true,
                         "in": "path",
                         "name": "userId",
-                        "type": "string"
+                        "type": "integer"
                     },
                     {
                         "required": false,
@@ -320,6 +341,59 @@
                 ],
                 "tags": [
                     "Message"
+                ]
+            }
+        },
+        "/entries": {
+            "get": {
+                "summary": "Get entries",
+                "responses": {
+                    "400": {
+                        "description": "Invalid `after[id]` or `before[id]` or `count`"
+                    },
+                    "200": {
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/Entry"
+                            },
+                            "type": "array"
+                        },
+                        "description": ""
+                    }
+                },
+                "produces": [
+                    "application/json;charset=utf-8"
+                ],
+                "parameters": [
+                    {
+                        "maximum": 9223372036854775807,
+                        "minimum": -9223372036854775808,
+                        "required": false,
+                        "in": "query",
+                        "name": "count",
+                        "type": "integer"
+                    },
+                    {
+                        "maximum": 9223372036854775807,
+                        "format": "int64",
+                        "minimum": -9223372036854775808,
+                        "required": false,
+                        "in": "query",
+                        "name": "before[id]",
+                        "type": "integer"
+                    },
+                    {
+                        "maximum": 9223372036854775807,
+                        "format": "int64",
+                        "minimum": -9223372036854775808,
+                        "required": false,
+                        "in": "query",
+                        "name": "after[id]",
+                        "type": "integer"
+                    }
+                ],
+                "tags": [
+                    "Entry"
                 ]
             }
         },
@@ -376,10 +450,13 @@
                 ],
                 "parameters": [
                     {
+                        "maximum": 9223372036854775807,
+                        "format": "int64",
+                        "minimum": -9223372036854775808,
                         "required": false,
                         "in": "query",
                         "name": "entryId[id]",
-                        "type": "string"
+                        "type": "integer"
                     }
                 ],
                 "tags": [
@@ -406,10 +483,13 @@
                 ],
                 "parameters": [
                     {
+                        "maximum": 9223372036854775807,
+                        "format": "int64",
+                        "minimum": -9223372036854775808,
                         "required": true,
                         "in": "path",
                         "name": "newsId",
-                        "type": "string"
+                        "type": "integer"
                     }
                 ],
                 "tags": [
@@ -436,10 +516,13 @@
                 ],
                 "parameters": [
                     {
+                        "maximum": 9223372036854775807,
+                        "format": "int64",
+                        "minimum": -9223372036854775808,
                         "required": true,
                         "in": "path",
                         "name": "userId",
-                        "type": "string"
+                        "type": "integer"
                     }
                 ],
                 "tags": [
@@ -448,6 +531,37 @@
             }
         },
         "/entry/{entryId}": {
+            "get": {
+                "summary": "Get entry",
+                "responses": {
+                    "404": {
+                        "description": "`entryId` not found"
+                    },
+                    "200": {
+                        "schema": {
+                            "$ref": "#/definitions/Entry"
+                        },
+                        "description": ""
+                    }
+                },
+                "produces": [
+                    "application/json;charset=utf-8"
+                ],
+                "parameters": [
+                    {
+                        "maximum": 9223372036854775807,
+                        "format": "int64",
+                        "minimum": -9223372036854775808,
+                        "required": true,
+                        "in": "path",
+                        "name": "entryId",
+                        "type": "integer"
+                    }
+                ],
+                "tags": [
+                    "Entry"
+                ]
+            },
             "delete": {
                 "summary": "Delete entry",
                 "responses": {
@@ -459,7 +573,10 @@
                     },
                     "200": {
                         "schema": {
-                            "$ref": "#/definitions/Entry"
+                            "example": [],
+                            "items": {},
+                            "maxItems": 0,
+                            "type": "array"
                         },
                         "description": ""
                     }
@@ -475,10 +592,13 @@
                         "type": "string"
                     },
                     {
+                        "maximum": 9223372036854775807,
+                        "format": "int64",
+                        "minimum": -9223372036854775808,
                         "required": true,
                         "in": "path",
                         "name": "entryId",
-                        "type": "string"
+                        "type": "integer"
                     }
                 ],
                 "tags": [
@@ -519,51 +639,6 @@
                 ],
                 "tags": [
                     "User"
-                ]
-            }
-        },
-        "/message/{userId}": {
-            "post": {
-                "summary": "Send message",
-                "responses": {
-                    "404": {
-                        "description": "`userId` not found"
-                    },
-                    "400": {
-                        "description": "Invalid `content` or `Authorization`"
-                    },
-                    "200": {
-                        "schema": {
-                            "$ref": "#/definitions/Message"
-                        },
-                        "description": ""
-                    }
-                },
-                "produces": [
-                    "application/json;charset=utf-8"
-                ],
-                "parameters": [
-                    {
-                        "required": false,
-                        "in": "header",
-                        "name": "Authorization",
-                        "type": "string"
-                    },
-                    {
-                        "required": true,
-                        "in": "path",
-                        "name": "userId",
-                        "type": "string"
-                    },
-                    {
-                        "required": false,
-                        "in": "query",
-                        "name": "content",
-                        "type": "string"
-                    }
-                ],
-                "tags": [
-                    "Message"
                 ]
             }
         },
@@ -640,10 +715,7 @@
                     },
                     "200": {
                         "schema": {
-                            "example": [],
-                            "items": {},
-                            "maxItems": 0,
-                            "type": "array"
+                            "$ref": "#/definitions/Entry"
                         },
                         "description": ""
                     }
@@ -659,14 +731,65 @@
                         "type": "string"
                     },
                     {
+                        "maximum": 9223372036854775807,
+                        "format": "int64",
+                        "minimum": -9223372036854775808,
                         "required": true,
                         "in": "path",
                         "name": "entryId",
-                        "type": "string"
+                        "type": "integer"
                     }
                 ],
                 "tags": [
                     "Entry"
+                ]
+            }
+        },
+        "/message/user/{userId}": {
+            "post": {
+                "summary": "Send message",
+                "responses": {
+                    "404": {
+                        "description": "`userId` not found"
+                    },
+                    "400": {
+                        "description": "Invalid `content` or `Authorization`"
+                    },
+                    "200": {
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        },
+                        "description": ""
+                    }
+                },
+                "produces": [
+                    "application/json;charset=utf-8"
+                ],
+                "parameters": [
+                    {
+                        "required": false,
+                        "in": "header",
+                        "name": "Authorization",
+                        "type": "string"
+                    },
+                    {
+                        "maximum": 9223372036854775807,
+                        "format": "int64",
+                        "minimum": -9223372036854775808,
+                        "required": true,
+                        "in": "path",
+                        "name": "userId",
+                        "type": "integer"
+                    },
+                    {
+                        "required": false,
+                        "in": "query",
+                        "name": "content",
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Message"
                 ]
             }
         },
@@ -784,10 +907,13 @@
                         "type": "string"
                     },
                     {
+                        "maximum": 9223372036854775807,
+                        "format": "int64",
+                        "minimum": -9223372036854775808,
                         "required": true,
                         "in": "path",
                         "name": "messageId",
-                        "type": "string"
+                        "type": "integer"
                     }
                 ],
                 "tags": [
@@ -826,38 +952,13 @@
                         "type": "string"
                     },
                     {
+                        "maximum": 9223372036854775807,
+                        "format": "int64",
+                        "minimum": -9223372036854775808,
                         "required": false,
                         "in": "query",
                         "name": "replyTo",
-                        "type": "string"
-                    }
-                ],
-                "tags": [
-                    "Entry"
-                ]
-            },
-            "get": {
-                "summary": "Get entry",
-                "responses": {
-                    "400": {
-                        "description": "Invalid `postId`"
-                    },
-                    "200": {
-                        "schema": {
-                            "$ref": "#/definitions/Entry"
-                        },
-                        "description": ""
-                    }
-                },
-                "produces": [
-                    "application/json;charset=utf-8"
-                ],
-                "parameters": [
-                    {
-                        "required": false,
-                        "in": "query",
-                        "name": "postId",
-                        "type": "string"
+                        "type": "integer"
                     }
                 ],
                 "tags": [

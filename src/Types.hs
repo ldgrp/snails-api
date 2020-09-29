@@ -1,28 +1,30 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module Types
-   ( URL
-   , Token
-   , Id
-   , EntryId
-   , UserId
-   , NewsId
-   , MessageId
-   , Entry
-   , Message
-   , Vehicle
-   , Map
-   , User
-   , WeatherCondition 
-   , Weather
-   , News
+   ( URL(..)
+   , Token(..)
+   , Id(..)
+   , EntryId(..)
+   , UserId(..)
+   , NewsId(..)
+   , MessageId(..)
+   , Entry(..)
+   , Message(..)
+   , Vehicle(..)
+   , Map(..)
+   , User(..)
+   , WeatherCondition (..)
+   , Weather(..)
+   , News(..)
    ) where
 
 import Data.Char
 import Data.Time
 import GHC.Generics
+import Data.Int
 
 import Data.Aeson as A
 import Data.Swagger as S hiding (URL)
@@ -44,17 +46,13 @@ camelCase :: String -> String
 camelCase (x:xs) = toLower x : xs
 
 
-newtype URL = URL T.Text
-   deriving (Eq, Show , Generic, ToSchema, ToJSON) 
+type URL = T.Text
 
-newtype Token = Token T.Text
-        deriving (Eq, Show, Generic, ToParamSchema, ToJSON)
+type Token = T.Text
 
-newtype Id = Id T.Text
-        deriving (Eq, Show, Generic, ToSchema, ToParamSchema, ToJSON)
+type Id = Int64
 
-newtype EntryId = EntryId Id
-        deriving (Eq, Show, Generic, ToSchema, ToParamSchema, ToJSON)
+type EntryId = Id
 
 data Entry = Entry 
    { entryId :: EntryId
@@ -73,8 +71,7 @@ instance ToSchema Entry where
    declareNamedSchema = genericDeclareNamedSchema $ schemaOptions "entry"
 
 
-newtype MessageId = MessageId Id
-        deriving (Eq, Show, Generic, ToSchema, ToParamSchema, ToJSON)
+type MessageId = Id
 
 data Message = Message 
     { messageFrom :: User
@@ -115,8 +112,7 @@ instance ToSchema Map where
    declareNamedSchema = genericDeclareNamedSchema $ schemaOptions "map"
 
 
-newtype UserId = UserId T.Text
-        deriving (Eq, Show, Generic, ToSchema, ToParamSchema, ToJSON)
+type UserId = Id
 
 data User = User 
    { userId :: UserId
@@ -176,8 +172,7 @@ instance ToSchema Weather where
    declareNamedSchema = genericDeclareNamedSchema $ schemaOptions "weather"
 
 
-newtype NewsId = NewsId Id
-        deriving (Eq, Show, Generic, ToSchema, ToParamSchema, ToJSON)
+type NewsId = Id
 
 data News = News
    { newsId :: NewsId
