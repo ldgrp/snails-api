@@ -10,6 +10,11 @@ This program will
 - Serve the Snails REST API
 - Generate Swagger docs
 
+## ⚡ Viewing the spec
+
+Use [Swagger Editor][swagger-editor] to view `swagger.json`.
+
+
 ## 🚀 Usage
 
 This project was built with [Servant][servant] + [Persistent][persistent].
@@ -28,10 +33,6 @@ cd snails-api
 cabal run
 ```
 
-## ⚡ Viewing the spec
-
-Use [Swagger Editor][swagger-editor] to view `swagger.json`.
-
 
 ## 💻 Development
 
@@ -47,7 +48,7 @@ Use [Swagger Editor][swagger-editor] to view `swagger.json`.
       the user id as a "token".
 - [x] User API
 - [x] Entry API
-- [ ] Messaging API
+- [x] Messaging API
 - [ ] (Mock) Map API
 - [ ] (Mock) News API
 - [ ] (Mock) Transport API

@@ -289,7 +289,7 @@
                         "description": "`userId` not found"
                     },
                     "400": {
-                        "description": "Invalid `until` or `since` or `count` or `Authorization`"
+                        "description": "Invalid `after` or `before` or `count` or `Authorization`"
                     },
                     "200": {
                         "schema": {
@@ -321,22 +321,30 @@
                         "type": "integer"
                     },
                     {
+                        "maximum": 9223372036854775807,
+                        "minimum": -9223372036854775808,
                         "required": false,
                         "in": "query",
                         "name": "count",
                         "type": "integer"
                     },
                     {
+                        "maximum": 9223372036854775807,
+                        "format": "int64",
+                        "minimum": -9223372036854775808,
                         "required": false,
                         "in": "query",
-                        "name": "since",
-                        "type": "string"
+                        "name": "before",
+                        "type": "integer"
                     },
                     {
+                        "maximum": 9223372036854775807,
+                        "format": "int64",
+                        "minimum": -9223372036854775808,
                         "required": false,
                         "in": "query",
-                        "name": "until",
-                        "type": "string"
+                        "name": "after",
+                        "type": "integer"
                     }
                 ],
                 "tags": [

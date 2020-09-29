@@ -47,7 +47,7 @@ Message json
   content Text
   sender UserId
   recipient UserId
-  createdAt UTCTime
+  created_at UTCTime
   deriving Show Eq
 |]
 
