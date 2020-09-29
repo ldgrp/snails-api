@@ -13,7 +13,6 @@ import Data.Maybe
 import Data.Int (Int64)
 import Db
 import Servant
-import Servant.API
 
 import qualified Data.Text as T
 import qualified Types as S

@@ -11,10 +11,9 @@ module Api
   MessageAPI,
   TransportAPI,
   MapAPI,
-  API
+  API,
+  app
 )where
-
-import Servant.API
 
 import Api.User
 import Api.Entry
@@ -24,15 +23,26 @@ import Api.Transport
 import Api.Map
 import Api.Weather
 
-import qualified Data.Text as T
+import Servant
+
 
 import Types
--- | General information: weather, etc
 
 type API = UserAPI 
       :<|> EntryAPI
-      :<|> WeatherAPI 
-      :<|> NewsAPI 
       :<|> MessageAPI 
       :<|> TransportAPI 
+      :<|> NewsAPI 
+      :<|> WeatherAPI 
       :<|> MapAPI 
+
+app :: Application
+app = serve (Proxy :: Proxy API)
+    (  userServer 
+  :<|> entryServer 
+  :<|> messageServer 
+  :<|> transportServer 
+  :<|> newsServer
+  :<|> weatherServer
+  :<|> mapServer
+    )

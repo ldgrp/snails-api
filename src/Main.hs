@@ -40,12 +40,6 @@ main = do
     populateDb
     run 8081 app
 
-
-app :: Application
-app = serve 
-  (Proxy :: Proxy (UserAPI :<|> EntryAPI :<|> MessageAPI)) 
-  (userServer :<|> entryServer :<|> messageServer)
-
 populateDb :: IO()
 populateDb = do
   now <- getCurrentTime

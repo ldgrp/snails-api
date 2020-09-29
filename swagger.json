@@ -163,6 +163,8 @@
             "type": "object",
             "properties": {
                 "eta": {
+                    "maximum": 9223372036854775807,
+                    "minimum": -9223372036854775808,
                     "type": "integer"
                 },
                 "name": {
@@ -424,10 +426,13 @@
                 ],
                 "parameters": [
                     {
+                        "maximum": 9223372036854775807,
+                        "format": "int64",
+                        "minimum": -9223372036854775808,
                         "required": true,
                         "in": "query",
                         "name": "id",
-                        "type": "string",
+                        "type": "integer",
                         "description": "board id"
                     }
                 ],
@@ -681,6 +686,8 @@
                         "type": "array"
                     },
                     {
+                        "maximum": 9223372036854775807,
+                        "minimum": -9223372036854775808,
                         "required": false,
                         "in": "query",
                         "name": "count",
@@ -806,7 +813,7 @@
                 "summary": "Get list of News items",
                 "responses": {
                     "400": {
-                        "description": "Invalid `until` or `since` or `count`"
+                        "description": "Invalid `after` or `before` or `count`"
                     },
                     "200": {
                         "schema": {
@@ -823,22 +830,30 @@
                 ],
                 "parameters": [
                     {
+                        "maximum": 9223372036854775807,
+                        "minimum": -9223372036854775808,
                         "required": false,
                         "in": "query",
                         "name": "count",
                         "type": "integer"
                     },
                     {
+                        "maximum": 9223372036854775807,
+                        "format": "int64",
+                        "minimum": -9223372036854775808,
                         "required": false,
                         "in": "query",
-                        "name": "since",
-                        "type": "string"
+                        "name": "before",
+                        "type": "integer"
                     },
                     {
+                        "maximum": 9223372036854775807,
+                        "format": "int64",
+                        "minimum": -9223372036854775808,
                         "required": false,
                         "in": "query",
-                        "name": "until",
-                        "type": "string"
+                        "name": "after",
+                        "type": "integer"
                     }
                 ],
                 "description": "Results are ordered from newest to oldest.",
@@ -866,19 +881,17 @@
                 ],
                 "parameters": [
                     {
-                        "format": "double",
                         "required": true,
                         "in": "query",
                         "name": "lat",
-                        "type": "number",
+                        "type": "string",
                         "description": "latitude"
                     },
                     {
-                        "format": "double",
                         "required": true,
                         "in": "query",
                         "name": "lng",
-                        "type": "number",
+                        "type": "string",
                         "description": "longitude"
                     }
                 ],

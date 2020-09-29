@@ -49,6 +49,23 @@ Message json
   recipient UserId
   created_at UTCTime
   deriving Show Eq
+News json
+  title Text
+  content Text
+  image_url Text
+  url Text
+  created_at UTCTime default=CURRENT_DATE
+  deriving Show Eq
+Vehicle json
+  name Text
+  code Text
+  eta Int
+  deriving Show Eq
+Board json
+  latitude Rational
+  longitude Rational
+  description Text
+  deriving Show Eq
 |]
 
 doMigrations :: IO ()

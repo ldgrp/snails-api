@@ -7,12 +7,11 @@ module Api.Entry where
 import Control.Monad.IO.Class
 import Database.Persist
 import Database.Persist.Sql
+import Data.Int (Int64)
 import Data.Maybe
-import Data.Time.Calendar
 import Data.Time.Clock
 import qualified Data.Map.Strict as M
 import Servant
-import GHC.Int (Int64)
 import Servant.API
 
 import Db

@@ -49,10 +49,10 @@ cabal run
 - [x] User API
 - [x] Entry API
 - [x] Messaging API
-- [ ] (Mock) Map API
-- [ ] (Mock) News API
-- [ ] (Mock) Transport API
-- [ ] (Mock) Weather API
+- [x] (Mock) Map API
+- [x] (Mock) News API
+- [x] (Mock) Transport API
+- [x] (Mock) Weather API
 - [ ] Use esqueleto. Persistent does _not_ support SQL joins 😞
 - [ ] Postgres support
 - [ ] Tests

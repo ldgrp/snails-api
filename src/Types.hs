@@ -19,6 +19,7 @@ module Types
    , WeatherCondition (..)
    , Weather(..)
    , News(..)
+   , BoardId(..)
    ) where
 
 import Data.Char
@@ -91,7 +92,7 @@ instance ToSchema Message where
 data Vehicle = Vehicle 
     { vehicleName :: T.Text
     , vehicleCode :: T.Text
-    , vehicleEta :: Integer
+    , vehicleEta :: Int
     } deriving (Eq, Show, Generic)
 
 instance ToJSON Vehicle where
@@ -188,3 +189,5 @@ instance ToJSON News where
 
 instance ToSchema News where
    declareNamedSchema = genericDeclareNamedSchema $ schemaOptions "news"
+
+type BoardId = Id
