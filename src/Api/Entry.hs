@@ -101,8 +101,9 @@ createEntry _ Nothing _ = throwError err404
 -- | Delete an entry
 deleteEntry :: Maybe S.Token -> S.EntryId -> Handler ()
 deleteEntry (Just token) eid = do
-  runDb $ update (toSqlKey eid) [EntryContent =. "Deleted", EntryIs_deleted =. True]
-deleteEntry _ _ = throwError err401
+  let author = toSqlKey $ (read $ T.unpack token :: Int64)
+  runDb $ updateWhere [EntryId ==. toSqlKey eid, EntryAuthor ==. author] [EntryContent =. "Deleted", EntryIs_deleted =. True]
+deleteEntry Nothing _ = throwError err401
 
 -- | Like an entry
 likeEntry :: Maybe S.Token -> S.EntryId -> Handler (S.Entry)
@@ -114,6 +115,7 @@ likeEntry (Just token) eid = do
   case maybeEntityEntry of
     Just entityEntry  -> toEntry entityEntry
     Nothing -> throwError err503
+likeEntry Nothing _ = throwError err401
 
 -- | Unlike an entry
 unlikeEntry :: Maybe S.Token -> S.EntryId -> Handler (S.Entry)
@@ -126,6 +128,7 @@ unlikeEntry (Just token) eid = do
   case maybeEntityEntry of
     Just entityEntry  -> toEntry entityEntry
     Nothing -> throwError err503
+unlikeEntry Nothing _ = throwError err401
 
 -- | Get `count` entries appearing before and/or after specific entries.
 getEntries :: Maybe Int -> Maybe S.EntryId -> Maybe S.EntryId -> Handler [S.Entry]
@@ -138,7 +141,7 @@ getEntries maybeCount maybeBeforeId maybeAfterId = do
     count :: Int
     count = maybe 3 id maybeCount
     before :: Maybe EntryId -> Handler (Maybe (Filter Entry))
-    before (Just eid) = fmap (fmap (EntryCreated_at >.)) (getTime eid)
+    before (Just eid) = fmap (fmap (EntryCreated_at <.)) (getTime eid)
     before Nothing = return Nothing
     after :: Maybe EntryId -> Handler (Maybe (Filter Entry))
     after (Just eid) = fmap (fmap (EntryCreated_at >.)) (getTime eid)
